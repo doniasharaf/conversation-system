@@ -1,15 +1,18 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.AI;
 
 public class Teleport : MonoBehaviour
 {
     Camera teleportationCamera;
     GameObject secondPlayer;
+    NavMeshAgent secondAgent;
     // Start is called before the first frame update
     void Start()
     {
         secondPlayer = GameObject.FindWithTag("SecondPlayer");
+        secondAgent = secondPlayer.GetComponent<NavMeshAgent>();
         teleportationCamera = GameObject.FindWithTag("TeleportCamera").GetComponent<Camera>();
     }
 
@@ -34,9 +37,10 @@ public class Teleport : MonoBehaviour
 
     public void onPointClicked(GameObject gameObject)
     {
-        if (gameObject.tag == "TeleportPoint")
+        if (Controller.isTeleport && gameObject.tag == "TeleportPoint")
         {
-            secondPlayer.transform.position = new Vector3(gameObject.transform.position.x, gameObject.transform.position.y, gameObject.transform.position.z);
+            secondAgent.destination = gameObject.transform.position;
+            //secondPlayer.transform.position = new Vector3(gameObject.transform.position.x, secondPlayer.transform.position.y, gameObject.transform.position.z);
         }
     }
 }

@@ -7,7 +7,7 @@ public class Controller : MonoBehaviour
     public GameObject teleportationPlane;
     public GameObject mainCamera;
     public GameObject teleportCamera;
-    bool isTeleport = false;
+    public static bool isTeleport = false;
     public StarterAssetsInputs starterAssetsInputs;
    
     // Start is called before the first frame update
