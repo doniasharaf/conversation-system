@@ -8,12 +8,16 @@ public class Controller : MonoBehaviour
     public GameObject mainCamera;
     public GameObject teleportCamera;
     public static bool isTeleport = false;
-    public StarterAssetsInputs starterAssetsInputs;
-   
-    // Start is called before the first frame update
+    bool isTalking = false;
+    public static DialogTrigger mainTrigger;
+    public static DialogTrigger secondTrigger;
+    
+
     void Start()
     {
-        
+        mainTrigger = GameObject.FindWithTag("Player").GetComponent<DialogTrigger>();
+        secondTrigger = GameObject.FindWithTag("SecondPlayer").GetComponent<DialogTrigger>();
+
     }
 
     // Update is called once per frame
@@ -39,6 +43,11 @@ public class Controller : MonoBehaviour
                 teleportCamera.SetActive(true);
                 isTeleport = true;
             }
+        }
+        if (!isTalking && Input.GetKeyDown(KeyCode.G))
+        {
+            isTalking = true;
+            secondTrigger.triggerDialog();
         }
     }
 }
