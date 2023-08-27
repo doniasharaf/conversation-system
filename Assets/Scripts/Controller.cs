@@ -7,38 +7,49 @@ public class Controller : MonoBehaviour
     public GameObject teleportationPlane;
     public GameObject mainCamera;
     public GameObject teleportCamera;
+    public GameObject instructionsPanel;
     public static bool isTeleport = false;
     bool isTalking = false;
     public static DialogTrigger mainTrigger;
     public static DialogTrigger secondTrigger;
+    GameObject mainPlayer;
+    GameObject secondPlayer;
     
 
     void Start()
     {
-        mainTrigger = GameObject.FindWithTag("Player").GetComponent<DialogTrigger>();
-        secondTrigger = GameObject.FindWithTag("SecondPlayer").GetComponent<DialogTrigger>();
+        SetCursorState(true);
+        mainPlayer = GameObject.FindWithTag("Player");
+        secondPlayer = GameObject.FindWithTag("SecondPlayer");
+        mainTrigger = mainPlayer.GetComponent<DialogTrigger>();
+        secondTrigger = secondPlayer.GetComponent<DialogTrigger>();
 
     }
 
     // Update is called once per frame
     void Update()
     {
+        if (Input.GetKeyDown(KeyCode.Return))
+            instructionsPanel.SetActive(false);
+        if (Input.GetKeyDown(KeyCode.H))
+            instructionsPanel.SetActive(true);
+        if (Input.GetKeyDown(KeyCode.Escape))
+            Application.Quit();
         if(Input.GetKeyDown(KeyCode.T))
         {
             if (isTeleport)
             {
                 teleportCamera.SetActive(false);
                 teleportationPlane.SetActive(false);
-                mainCamera.SetActive(true);
-                Cursor.lockState = CursorLockMode.Locked;
-
+                mainCamera.GetComponent<Camera>().enabled = true;
+                SetCursorState(true);
                 isTeleport = false;
 
             }
             else
             {
-                Cursor.lockState = CursorLockMode.Confined;
-                mainCamera.SetActive(false);
+                SetCursorState(false);
+                mainCamera.GetComponent<Camera>().enabled = false;
                 teleportationPlane.SetActive(true);
                 teleportCamera.SetActive(true);
                 isTeleport = true;
@@ -49,5 +60,13 @@ public class Controller : MonoBehaviour
             isTalking = true;
             secondTrigger.triggerDialog();
         }
+    }
+    public void SetCursorState(bool value)
+    {
+        if(value)
+            Cursor.lockState = CursorLockMode.Locked;
+        else
+            Cursor.lockState = CursorLockMode.Confined;
+
     }
 }

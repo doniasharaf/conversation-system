@@ -18,20 +18,14 @@ public class DialogController : MonoBehaviour
     }
     public void startDialog(Dialog dialog)
     {
-       /* if (dialog.sentences.Count == 0)
-            endDialog();*/
+
         dialogAnimator.SetBool("isOpen", true);
         nameText.text = dialog.name;
         sentences.Clear();
         index = dialog.index;
-/*        foreach (string sentence in dialog.sentences)
-        {
-            sentences.Add(sentence);
-        }*/
         if (dialog.count < 4)
         {
             sentences.Add(dialog.sentences[0]);
-            //dialog.audioSource.clip = dialog.clips[0];
         }
         else
         {
@@ -50,24 +44,19 @@ public class DialogController : MonoBehaviour
         dialog.sentences.RemoveAt(dialog.lastChoice);
         dialog.clips.RemoveAt(dialog.lastChoice);
         dialog.count++;
-       // displayNextSentence();
-        StartCoroutine(StartSounds(sentences[0],dialog.audioSource));
+        StartCoroutine(StartSounds(sentences[0], dialog.audioSource));
     }
     public void displayNextSentence()
     {
-        /*if (sentences.Count == 0)
-        {
-            endDialog();
-            return;
-        }*/
+
         string cur = sentences[0];
         sentences.RemoveAt(0);
         StopAllCoroutines();
         StartCoroutine(TypeText(cur));
-        
-        
 
-        
+
+
+
     }
     public void endDialog()
     {
@@ -83,10 +72,7 @@ public class DialogController : MonoBehaviour
             dialogText.text += c;
             yield return null;
         }
-        /*if (index == 0)
-            Controller.mainTrigger.triggerDialog();
-        else
-            Controller.secondTrigger.triggerDialog();*/
+
     }
 
     IEnumerator StartSounds(string line, AudioSource audioSource)
@@ -96,7 +82,6 @@ public class DialogController : MonoBehaviour
         foreach (char c in line)
         {
             dialogText.text += c;
-            //yield return null;
         }
         yield return new WaitUntil(() => !audioSource.isPlaying);
         audioSource.Stop();
